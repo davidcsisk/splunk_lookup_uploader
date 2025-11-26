@@ -1,19 +1,19 @@
 
-# CSV to Splunk Lookup Importer
+# Splunk Lookup Uploader
 
-To make it easier to upload CSV files as lookups in Splunk remotely, I developed a solution using SPL (Splunk Processing Language). This approach worked well for me, and I’m sharing it in hopes that it will help others in the community too.
-
+To make it easier to upload lookup CSV files into Splunk remotely, I've cloned and modified this python app.
+'ve
 ## Features
 
-- **CSV to Lookup**: Upload `.csv` files as Splunk lookups.
+- **Lookup CSV uploads**: Upload `.csv` files as Splunk lookups.
 - **Backup Existing Lookups**: Automatically backup lookups with a timestamp if they already exist.
 
 ## Installation
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/krdmnbrk/splunk_csv_importer.git
-    cd splunk_csv_importer
+    git clone https://github.com/krdmnbrk/splunk_lookup_uploader.git
+    cd splunk_lookup_uploader
     ```
 
 2. **Install dependencies**:
@@ -23,16 +23,16 @@ To make it easier to upload CSV files as lookups in Splunk remotely, I developed
 
 3. **Set up `.env`**:
     ```ini
-    # Splunk instance's host (usually localhost or a specific IP)
+    # Splunk instance's host (usually localhost or a specific IP...just the host, not the full HTTP url)
     SPLUNK_HOST=
 
     # Splunk management port (usually 8089)
     SPLUNK_PORT=8089
 
-    # Splunk token for authentication
+    # Splunk token for authentication (if your installation has token auth enabled, favor this means to authenticate, otherwise leave it blank)
     SPLUNK_TOKEN=
 
-    # Splunk username & password for authentication
+    # Splunk username & password for authentication (favor using a non-human service user if you have one available)
     SPLUNK_USERNAME=
     SPLUNK_PASSWORD=
 
@@ -45,15 +45,15 @@ To make it easier to upload CSV files as lookups in Splunk remotely, I developed
 ## Usage
 
 ```bash
-python splunk_csv_importer.py --source_file path/to/your.csv --target_lookup_name your_lookup_name.csv
+python splunk_lookup_uploader.py --source_file path/to/your.csv --target_lookup_name your_lookup_name.csv
 ```
 
 Example:
 ```bash
-python splunk_csv_importer.py --source_file data.csv --target_lookup_name my_lookup.csv
+python splunk_lookup_uploader.py --source_file your_lookup_file.csv --target_lookup_name your_lookup.csv
 ```
 
-If a lookup exists, it will be backed up with a timestamp.
+If a lookup exists, it will be backed up with a timestamp.  The lookup will have owner "nobody", associated with search application, and global permissions.
 
 ## Example Workflow
 
