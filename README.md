@@ -55,9 +55,6 @@ python splunk_lookup_uploader.py --source_file your_lookup_file.csv --target_loo
 
 If a lookup exists, it will be backed up with a timestamp.  The lookup will have owner "nobody", associated with search application, and have global permissions.
 
-## Databricks Particulars
-To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simple call the script using a **%run** magic command. 
-
 ## Example Workflow
 
 1. Set up `.env` with your Splunk details.
@@ -67,3 +64,8 @@ To use from a Databricks notebook, download the zipped code locally, unzip, edit
     | inputlookup your_lookup_name.csv
     ```
 
+## Databricks Particulars
+To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simple call the script using a **%run** magic command, like so:
+```bash
+%run splunk_lookup_uploader.py --source_file path/to/your.csv --target_lookup_name your_lookup_name.csv
+```
