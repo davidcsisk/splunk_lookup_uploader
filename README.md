@@ -69,3 +69,28 @@ To use from a Databricks notebook, download the zipped code locally, unzip, edit
 ```bash
 %run splunk_lookup_uploader.py --source_file path/to/your.csv --target_lookup_name your_lookup_name.csv
 ```
+
+## How It Works
+SPL can be used to create a Splunk lookup from scratch, so this python script constructs that SPL and submits it.  Here are examples that show the approach it's taking:
+
+First example:
+```bash
+| makeresults count=2
+| eval this = case(_n=1, "this", _n=2, "that")
+| eval that = case(_n=1, 123, _n=2, 456)
+| fields this that
+| outputlookup example_lookup.csv
+```
+Second example (hard-coded rows):
+```bash
+| makeresults
+| eval data="this,123;that,456"
+| makemv delim=";" data
+| mvexpand data
+| eval this=mvindex(split(data,","),0),
+       that=mvindex(split(data,","),1)
+| fields this that
+| outputlookup example_lookup.csv
+```
+
+The python script builds the SPL with values from the lookup data, then submits it to Splunk similar to the examples immediately above. This is a very simple approach that works beautifully with a reasonable size of lookup data.
