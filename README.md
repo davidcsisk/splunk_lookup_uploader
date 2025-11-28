@@ -1,8 +1,8 @@
 
 # Splunk Lookup Uploader
 
-To make it easier to upload lookup CSV files into Splunk remotely, I've cloned and modified this python app.
-'ve
+To make it easier to upload lookup CSV files into Splunk remotely, I've cloned splunk_csv_importer and modified slightly. This utility will work from any python3 client environment, including Databricks.
+
 ## Features
 
 - **Lookup CSV uploads**: Upload `.csv` files as Splunk lookups.
@@ -53,7 +53,10 @@ Example:
 python splunk_lookup_uploader.py --source_file your_lookup_file.csv --target_lookup_name your_lookup.csv
 ```
 
-If a lookup exists, it will be backed up with a timestamp.  The lookup will have owner "nobody", associated with search application, and global permissions.
+If a lookup exists, it will be backed up with a timestamp.  The lookup will have owner "nobody", associated with search application, and have global permissions.
+
+## Databricks Particulars
+To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simple call the script using a **%run** magic command. 
 
 ## Example Workflow
 
@@ -64,6 +67,3 @@ If a lookup exists, it will be backed up with a timestamp.  The lookup will have
     | inputlookup your_lookup_name.csv
     ```
 
-## Contributions
-
-Feel free to fork or submit PRs. I built this to solve a problem, and I'm happy if it helps others!
