@@ -64,6 +64,9 @@ If a lookup exists, it will be backed up with a timestamp.  The lookup will have
     | inputlookup your_lookup_name.csv
     ```
 
+**Note**: The script now checks for the presence of the config file and exits if not found.  You should change to the script directory before running...like so:
+```os.chdir("/directory/where/the/script/sits")
+
 ## Databricks Particulars
 To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simple call the script using a **%run** magic command, like so:
 ```bash
