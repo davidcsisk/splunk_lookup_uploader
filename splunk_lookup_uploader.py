@@ -94,7 +94,7 @@ def backup_lookup_if_exists(lookup_name):
     Returns:
         None
     """
-    print(f"Checking if lookup '{lookup_name}' contains data...")
+    print(f"Checking if lookup '{lookup_name}' exists (will be backed-up)...")
     # SPL query to check if the lookup contains any data
     spl_query = f"| inputlookup {lookup_name} | head 1"
 
@@ -171,6 +171,12 @@ def generate_lookup(csv_file_path, lookup_name):
 
 
 def main():
+
+    # Check that the config file can be found...if not, exit with an error message.
+    if not os.path.exists(".env"):
+        print("Error: .env file not found. Change directory to script directory before running. Exiting...")
+        return   # exits main() cleanly
+        
     # Argument parser for command-line usage
     parser = argparse.ArgumentParser(
         description="Generate a Splunk lookup from a CSV file.",
