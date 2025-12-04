@@ -64,13 +64,17 @@ If a lookup exists, it will be backed up with a timestamp.  The lookup will have
     | inputlookup your_lookup_name.csv
     ```
 
-**Note**: The script now checks for the presence of the config file and exits if not found.  You should change to the script directory before running...like so:
-```os.chdir("/directory/where/the/script/sits")
+**Note**: The script now checks for the presence of the config file and exits with a message if not found.  You should change the directory to the script directory (OR the directory with the .env file that you want to use) before running...like so:
+```os.chdir("/directory/where/the/script/sits")```
 
 ## Databricks Particulars
-To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simple call the script using a **%run** magic command, like so:
+To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simply call the script using a **%run** magic command...the code below should work fine:
 ```bash
-%run splunk_lookup_uploader.py --source_file path/to/your.csv --target_lookup_name your_lookup_name.csv
+!pip install splunk-sdk==2.0.2
+import os
+os.chdir("/directory/where/this/script/lives")
+
+%run splunk_lookup_uploader.py --source_file path/to/your_file.csv --target_lookup_name your_lookup.csv
 ```
 
 ## How It Works
