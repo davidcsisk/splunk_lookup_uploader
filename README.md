@@ -65,17 +65,18 @@ If a lookup exists, it will be backed up with a timestamp.  The lookup will have
     ```
 
 **Note**: The script now checks for the presence of the config file and exits with a message if not found.  You should change the directory to the script directory (OR the directory with the .env file that you want to use) before running...like so:
-```os.chdir("/directory/where/the/script/sits")```
+```os.chdir("/directory/where/the/.env file/lives")```
 
 ## Databricks Particulars
-To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a !pip install --quiet -r requirements to the top of you notebook to add the splunk-sdk module for that session, unless you get your support team to install the splunk-sdk into the install as a permanently-available package. In the notebook, you can simply call the script using a **%run** magic command...the code below should work fine:
+To use from a Databricks notebook, download the zipped code locally, unzip, edit the .env file, then use the Databricks interface to upload the files to a folder in your Databricks workspace. In each notebook, you will need to add a **!pip install --quiet -r requirements.txt** to the top of you notebook to add the splunk-sdk module for that session, or you can get your Databricks local team to install the splunk-sdk as a permanently-available package. In the notebook, you can simply call the script using a **%run** magic command...the code below should work fine:
 ```bash
 !pip install splunk-sdk==2.0.2
 import os
-os.chdir("/directory/where/this/script/lives")
+os.chdir("/directory/where/the/.env file/lives")
 
 %run splunk_lookup_uploader.py --source_file path/to/your_file.csv --target_lookup_name your_lookup.csv
 ```
+If you need to use different credentials, then just put them in different .env files in different directories, and change to the correct directory before calling the script.
 
 ## How It Works
 An SPL search can be used to create a Splunk lookup from scratch, so this python script constructs that SPL using data from a CSV file, and then submits the SPL search to Splunk.  Here are examples that show the approach it's using:
